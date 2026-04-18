@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+:root {
+  /* Hand-drawn soft style color palette */
+  --bg-cream: #FDF8F3;
+  --bg-white: #FFFFFF;
+  --pink-main: #FFB6C1;
+  --pink-light: #FFF0F5;
+  --blue-sky: #87CEEB;
+  --blue-light: #E0F4FF;
+  --gold-warm: #FFD700;
+  --gold-light: #FFF8DC;
+  --text-brown: #5D4E37;
+  --text-brown-light: #8B7355;
+  --border-beige: #E8DCC8;
+  --shadow-soft: rgba(93, 78, 55, 0.08);
+  --shadow-hover: rgba(93, 78, 55, 0.15);
+}
+
+@theme inline {
+  --color-bg-cream: var(--bg-cream);
+  --color-bg-white: var(--bg-white);
+  --color-pink-main: var(--pink-main);
+  --color-pink-light: var(--pink-light);
+  --color-blue-sky: var(--blue-sky);
+  --color-blue-light: var(--blue-light);
+  --color-gold-warm: var(--gold-warm);
+  --color-gold-light: var(--gold-light);
+  --color-text-brown: var(--text-brown);
+  --color-text-brown-light: var(--text-brown-light);
+  --color-border-beige: var(--border-beige);
+  --font-zCOOL: "ZCOOL XiaoWei", serif;
+  --font-sans: "Noto Sans SC", sans-serif;
+}
+
+body {
+  background: var(--bg-cream);
+  color: var(--text-brown);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+/* Polaroid photo frame style */
+.polaroid {
+  background: var(--bg-white);
+  padding: 12px 12px 40px 12px;
+  box-shadow: 0 4px 12px var(--shadow-soft);
+  transform: rotate(-2deg);
+  transition: all 0.3s ease;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: 0 8px 24px var(--shadow-hover);
+}
+
+.polaroid-alt {
+  transform: rotate(2deg);
+}
+
+.polaroid-alt:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+/* Tape decoration effect */
+.tape {
+  position: relative;
+}
+
+.tape::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-5deg);
+  width: 60px;
+  height: 24px;
+  background: linear-gradient(135deg, rgba(255,182,193,0.6), rgba(255,182,193,0.4));
+  border-radius: 2px;
+}
+
+/* Milestone ribbon */
+.milestone-ribbon {
+  background: linear-gradient(135deg, var(--pink-main), var(--gold-warm));
+  color: white;
+  padding: 4px 16px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(255,182,193,0.4);
+}
+
+/* Timeline line */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--pink-main), var(--blue-sky), var(--gold-warm));
+  transform: translateX(-50%);
+}
+
+/* Timeline dot */
+.timeline-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--pink-main);
+  border: 3px solid var(--bg-cream);
+  box-shadow: 0 0 0 2px var(--pink-main);
+  z-index: 10;
+}
+
+.timeline-dot-milestone {
+  width: 24px;
+  height: 24px;
+  background: var(--gold-warm);
+  box-shadow: 0 0 0 3px var(--gold-light), 0 0 0 6px var(--pink-main);
+}
+
+/* Washi tape decoration */
+.washi-tape {
+  position: relative;
+}
+
+.washi-tape::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  width: 50px;
+  height: 20px;
+  background: linear-gradient(135deg, var(--blue-sky), var(--blue-light));
+  opacity: 0.7;
+  transform: rotate(8deg);
+  border-radius: 2px;
+}
+
+/* Card with torn edge effect */
+.card-torn {
+  background: var(--bg-white);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px var(--shadow-soft);
+  position: relative;
+}
+
+.card-torn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--pink-main) 10%,
+    var(--blue-sky) 30%,
+    var(--gold-warm) 50%,
+    var(--blue-sky) 70%,
+    var(--pink-main) 90%,
+    transparent 100%
+  );
+  border-radius: 8px 8px 0 0;
+}
+
+/* Sticker style tag */
+.tag-sticker {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--pink-light);
+  border: 1px dashed var(--pink-main);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: var(--text-brown);
+}
+
+/* Paper texture overlay */
+.paper-texture {
+  position: relative;
+}
+
+.paper-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Handwritten font style */
+.font-handwritten {
+  font-family: var(--font-zCOOL);
+  letter-spacing: 2px;
+}
+
+/* Animation for cards */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Fade in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Staggered delay for children */
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 400ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 500ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 600ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 700ms; }

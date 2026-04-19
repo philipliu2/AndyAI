@@ -13,7 +13,7 @@ const LOCAL_STORAGE_KEY = "andyai_custom_memories";
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("asc");
   const [customMemories, setCustomMemories] = useState<Memory[]>([]);
 
   // Load custom memories from localStorage

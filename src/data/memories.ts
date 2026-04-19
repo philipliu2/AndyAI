@@ -54,7 +54,7 @@ export const memories: Memory[] = [
     milestone: true,
     milestoneLabel: "满月",
     excerpt: "满月啦，小脸蛋越来越圆润",
-    photos: [],
+    photos: ["https://cdn.jsdelivr.net/gh/philipliu2/images/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260419131015_11_61.jpg"],
     content: `满月啦！\n\n小脸蛋越来越圆润，\n眼睛也越来越有神。\n\n感谢家人的照顾，\n Andy在爱中健康成长。`,
   },
   {
@@ -91,7 +91,7 @@ export const memories: Memory[] = [
     cover: "",
     milestone: false,
     excerpt: "第一次感受大自然的阳光和风",
-    photos: [],
+    photos: ["https://cdn.jsdelivr.net/gh/philipliu2/images/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260419131020_15_61.jpg"],
     content: `第一次逛公园，\n第一次感受大自然的阳光和风。\n\n蓝天、白云、绿草，\n这个世界真美好。`,
   },
   {
@@ -129,7 +129,7 @@ export const memories: Memory[] = [
     milestone: true,
     milestoneLabel: "百天",
     excerpt: "人生第一个重要里程碑，眉眼渐渐长开，变得可爱灵动",
-    photos: [],
+    photos: ["https://cdn.jsdelivr.net/gh/philipliu2/images/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260419131018_13_61.jpg"],
     content: `一百天啦！\n\n人生第一个重要里程碑，\n眉眼渐渐长开，\n变得可爱灵动。\n\n感谢每一天的陪伴。`,
   },
 

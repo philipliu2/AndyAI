@@ -1,23 +1,47 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Timeline from "@/components/Timeline";
 import CategoryFilter from "@/components/CategoryFilter";
+import SearchBar from "@/components/SearchBar";
 import { memories } from "@/data/memories";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
 
   const filteredMemories = useMemo(() => {
     const sorted = [...memories].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
-    if (activeCategory === "all") return sorted;
-    return sorted.filter((m) => m.category === activeCategory);
-  }, [activeCategory]);
+    let filtered = sorted;
+
+    // Filter by category
+    if (activeCategory !== "all") {
+      filtered = filtered.filter((m) => m.category === activeCategory);
+    }
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (m) =>
+          m.title.toLowerCase().includes(query) ||
+          m.content.toLowerCase().includes(query) ||
+          m.excerpt.toLowerCase().includes(query) ||
+          m.tags.some((tag) => tag.toLowerCase().includes(query))
+      );
+    }
+
+    return filtered;
+  }, [activeCategory, searchQuery]);
 
   // Count milestones
   const milestoneCount = memories.filter((m) => m.milestone).length;
@@ -46,6 +70,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Search Bar */}
+      <SearchBar onSearch={handleSearch} />
+
       {/* Category Filter */}
       <section className="px-4">
         <CategoryFilter
@@ -62,7 +89,11 @@ export default function Home() {
           <div className="text-center py-16">
             <div className="text-6xl mb-4">🌸</div>
             <p className="text-text-brown-light">
-              暂无{activeCategory !== "all" ? "这类" : ""}记录
+              {searchQuery
+                ? "没有找到匹配的记录"
+                : activeCategory !== "all"
+                ? "暂无这类记录"
+                : "暂无记录"}
             </p>
           </div>
         )}

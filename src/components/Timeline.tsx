@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Memory } from "@/data/memories";
 
 interface TimelineProps {
@@ -29,8 +30,11 @@ export default function Timeline({ memories }: TimelineProps) {
 
             {/* Content card */}
             <div className={`flex-1 max-w-xl ${index % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
-              <div
-                className={`card-torn p-6 ${memory.milestone ? "border-2 border-pink-main/30" : ""}`}
+              <Link
+                href={`/memory/${memory.id}`}
+                className={`card-torn p-6 block transition-all hover:shadow-lg ${
+                  memory.milestone ? "border-2 border-pink-main/30" : ""
+                }`}
               >
                 {/* Milestone ribbon */}
                 {memory.milestone && memory.milestoneLabel && (
@@ -74,7 +78,7 @@ export default function Timeline({ memories }: TimelineProps) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
 
             {/* Empty space for other side on desktop */}

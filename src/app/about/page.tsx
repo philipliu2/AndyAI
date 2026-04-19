@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { babyInfo } from "@/data/memories";
 
 export default function About() {
   return (
@@ -24,16 +25,16 @@ export default function About() {
         <div className="bg-bg-white rounded-2xl p-8 shadow-md border border-border-beige">
           <div className="space-y-6">
             <div>
-              <h2 className="font-handwritten text-xl text-text-brown mb-2">👶 小Andy</h2>
+              <h2 className="font-handwritten text-xl text-text-brown mb-2">👶 小{babyInfo.name}</h2>
               <p className="text-text-brown-light text-sm">
-                一个可爱的小宝宝，正在探索这个美好的世界。
+                出生于 {babyInfo.birthDate}，在 {babyInfo.birthPlace}
               </p>
             </div>
 
             <div className="border-t border-border-beige pt-6">
               <h2 className="font-handwritten text-xl text-text-brown mb-4">📖 这个网站</h2>
               <p className="text-text-brown-light text-sm leading-relaxed">
-                这是一个专门为Andy创建的成长记录网站。我们希望通过这个网站，
+                这是一个专门为{babyInfo.name}创建的成长记录网站。我们希望通过这个网站，
                 记录下他成长过程中的每一个重要时刻——第一次微笑、第一次走路、
                 第一个生日...希望这些记忆能成为他长大后最珍贵的礼物。
               </p>
@@ -42,7 +43,7 @@ export default function About() {
             <div className="border-t border-border-beige pt-6">
               <h2 className="font-handwritten text-xl text-text-brown mb-4">💕 致谢</h2>
               <p className="text-text-brown-light text-sm leading-relaxed">
-                感谢每一位关心Andy的家人和朋友。
+                感谢每一位关心{babyInfo.name}的家人和朋友。
                 特别感谢为这个网站付出努力的每一个人。
               </p>
             </div>

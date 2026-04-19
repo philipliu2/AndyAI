@@ -22,6 +22,9 @@ export default function Header() {
             <a href="/about" className="text-text-brown hover:text-pink-main transition-colors text-sm">
               关于
             </a>
+            <a href="/admin" className="text-pink-main hover:text-text-brown transition-colors text-sm font-medium">
+              📝 管理
+            </a>
           </nav>
         </div>
       </div>

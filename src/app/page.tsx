@@ -1,25 +1,64 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Timeline from "@/components/Timeline";
 import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
-import { memories } from "@/data/memories";
+import { Memory, memories as staticMemories } from "@/data/memories";
+
+const LOCAL_STORAGE_KEY = "andyai_custom_memories";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
+  const [customMemories, setCustomMemories] = useState<Memory[]>([]);
+
+  // Load custom memories from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (stored) {
+      try {
+        setCustomMemories(JSON.parse(stored));
+      } catch (e) {
+        console.error("Failed to parse custom memories", e);
+      }
+    }
+  }, []);
+
+  // Listen for storage changes (for when admin page adds new memories)
+  useEffect(() => {
+    const handleStorage = () => {
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (stored) {
+        try {
+          setCustomMemories(JSON.parse(stored));
+        } catch (e) {
+          console.error("Failed to parse custom memories", e);
+        }
+      } else {
+        setCustomMemories([]);
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   const handleSearch = useCallback((query: string) => {
     setSearchQuery(query);
   }, []);
 
+  // Combine static and custom memories
+  const allMemories = useMemo(() => {
+    return [...staticMemories, ...customMemories];
+  }, [customMemories]);
+
   const filteredMemories = useMemo(() => {
     // Sort by date
-    const sorted = [...memories].sort((a, b) => {
+    const sorted = [...allMemories].sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
       return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
@@ -45,10 +84,10 @@ export default function Home() {
     }
 
     return filtered;
-  }, [activeCategory, searchQuery, sortOrder]);
+  }, [allMemories, activeCategory, searchQuery, sortOrder]);
 
-  // Count milestones
-  const milestoneCount = memories.filter((m) => m.milestone).length;
+  // Count milestones (including custom)
+  const milestoneCount = allMemories.filter((m) => m.milestone).length;
 
   return (
     <div className="min-h-screen flex flex-col paper-texture">
@@ -65,7 +104,7 @@ export default function Home() {
           </p>
           <div className="flex justify-center gap-8 text-sm">
             <div className="bg-bg-white rounded-full px-6 py-3 shadow-sm border border-border-beige">
-              <span className="text-pink-main font-semibold">{memories.length}</span> 条记忆
+              <span className="text-pink-main font-semibold">{allMemories.length}</span> 条记忆
             </div>
             <div className="bg-bg-white rounded-full px-6 py-3 shadow-sm border border-border-beige">
               <span className="text-gold-warm font-semibold">{milestoneCount}</span> 个里程碑

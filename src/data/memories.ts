@@ -27,11 +27,11 @@ export const memories: Memory[] = [
     date: "2025-10-01",
     category: "milestone",
     tags: ["出生", "第一天", "里程碑"],
-    cover: "/photos/birth.jpg",
+    cover: "",
     milestone: true,
     milestoneLabel: "出生",
     excerpt: "来到爸爸妈妈身边，从此世界多了一份牵挂。",
-    photos: ["/photos/birth-1.jpg", "/photos/birth-2.jpg"],
+    photos: ["https://cdn.jsdelivr.net/gh/philipliu2/images/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260419120628_10_61.jpg"],
     content: `🎉 2025年10月1日国庆节🎉
 
 今天是我们生命中最特别的一天。

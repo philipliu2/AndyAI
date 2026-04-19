@@ -330,6 +330,21 @@ export default function AdminPage() {
                   placeholder="记录这一刻的详细故事..."
                 />
               </div>
+
+              {/* Photo URLs */}
+              <div>
+                <label className="block text-text-brown text-sm mb-1 font-medium">照片链接（用换行分隔，可添加多张）</label>
+                <textarea
+                  value={Array.isArray(formData.photos) ? formData.photos.join("\n") : formData.photos}
+                  onChange={(e) => setFormData({ ...formData, photos: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-2 rounded-lg border border-border-beige focus:outline-none focus:ring-2 focus:ring-pink-main/50 resize-none"
+                  placeholder="https://github.com/philipliu2/AndyAI/raw/main/public/photos/xxx.jpg"
+                />
+                <p className="text-xs text-text-brown-light mt-1">
+                  💡 使用 PicGo 上传图片到 GitHub，然后粘贴图片链接
+                </p>
+              </div>
             </div>
 
             <div className="flex gap-3 mt-6">

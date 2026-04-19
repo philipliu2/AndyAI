@@ -69,14 +69,27 @@ export default function Timeline({ memories }: TimelineProps) {
                   ))}
                 </div>
 
-                {/* Placeholder for photo */}
+                {/* Photo */}
                 <div className="mt-3">
-                  <div className="polaroid w-32 h-40 bg-gradient-to-br from-pink-light to-blue-light flex items-center justify-center text-text-brown-light mx-auto">
-                    <div className="text-center">
-                      <div className="text-3xl mb-1">📷</div>
-                      <p className="text-xs">照片待添加</p>
+                  {memory.photos && memory.photos.length > 0 ? (
+                    <div className={`polaroid w-32 h-40 mx-auto overflow-hidden ${index % 2 === 0 ? "md:ml-auto" : "md:mr-auto"}`}>
+                      <img
+                        src={memory.photos[0]}
+                        alt={memory.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = "none";
+                        }}
+                      />
                     </div>
-                  </div>
+                  ) : (
+                    <div className="polaroid w-32 h-40 bg-gradient-to-br from-pink-light to-blue-light flex items-center justify-center text-text-brown-light mx-auto">
+                      <div className="text-center">
+                        <div className="text-3xl mb-1">📷</div>
+                        <p className="text-xs">照片待添加</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </Link>
             </div>

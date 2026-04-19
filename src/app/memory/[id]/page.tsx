@@ -1,46 +1,84 @@
-import { notFound } from "next/navigation";
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { memories } from "@/data/memories";
+import { Memory, memories as staticMemories } from "@/data/memories";
+
+const LOCAL_STORAGE_KEY = "andyai_custom_memories";
 
 interface MemoryPageProps {
   params: Promise<{ id: string }>;
 }
 
-export async function generateStaticParams() {
-  return memories.map((memory) => ({
-    id: memory.id,
-  }));
-}
+export default function MemoryPage({ params }: MemoryPageProps) {
+  const [memory, setMemory] = useState<Memory | null>(null);
+  const [allMemories, setAllMemories] = useState<Memory[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export async function generateMetadata({ params }: MemoryPageProps) {
-  const { id } = await params;
-  const memory = memories.find((m) => m.id === id);
+  useEffect(() => {
+    // Load memory by ID
+    const loadMemory = async () => {
+      const { id } = await params;
 
-  if (!memory) {
-    return { title: "未找到 - AndyAI" };
+      // Load custom memories from localStorage
+      let customMemories: Memory[] = [];
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (stored) {
+          try {
+            customMemories = JSON.parse(stored);
+          } catch (e) {
+            console.error("Failed to parse custom memories", e);
+          }
+        }
+      }
+
+      const allMems = [...staticMemories, ...customMemories];
+      setAllMemories(allMems);
+
+      const found = allMems.find((m) => m.id === id);
+      setMemory(found || null);
+      setLoading(false);
+    };
+
+    loadMemory();
+  }, [params]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col paper-texture">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <p className="text-text-brown-light">加载中...</p>
+        </main>
+        <Footer />
+      </div>
+    );
   }
 
-  return {
-    title: `${memory.title} - AndyAI`,
-    description: memory.excerpt,
-  };
-}
-
-export default async function MemoryPage({ params }: MemoryPageProps) {
-  const { id } = await params;
-  const memory = memories.find((m) => m.id === id);
-
   if (!memory) {
-    notFound();
+    return (
+      <div className="min-h-screen flex flex-col paper-texture">
+        <Header />
+        <main className="flex-1 flex flex-col items-center justify-center">
+          <div className="text-6xl mb-4">🔍</div>
+          <p className="text-text-brown-light mb-4">未找到这条记录</p>
+          <Link href="/" className="text-pink-main hover:text-text-brown">
+            ← 返回首页
+          </Link>
+        </main>
+        <Footer />
+      </div>
+    );
   }
 
   // Get adjacent memories for navigation
-  const sortedMemories = [...memories].sort(
+  const sortedMemories = [...allMemories].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
-  const currentIndex = sortedMemories.findIndex((m) => m.id === id);
+  const currentIndex = sortedMemories.findIndex((m) => m.id === memory.id);
   const prevMemory = sortedMemories[currentIndex + 1];
   const nextMemory = sortedMemories[currentIndex - 1];
 
@@ -85,14 +123,31 @@ export default async function MemoryPage({ params }: MemoryPageProps) {
 
           {/* Content */}
           <div className="p-8">
-            {/* Photo placeholder */}
+            {/* Photo */}
             <div className="mb-8 text-center">
-              <div className="polaroid w-72 h-80 mx-auto bg-gradient-to-br from-pink-light to-blue-light flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-6xl mb-2">📷</div>
-                  <p className="text-text-brown-light text-sm">照片待添加</p>
+              {memory.photos && memory.photos.length > 0 ? (
+                <div className="flex flex-wrap justify-center gap-4">
+                  {memory.photos.map((photo, idx) => (
+                    <div key={idx} className="polaroid w-72 h-80 overflow-hidden">
+                      <img
+                        src={photo}
+                        alt={`${memory.title} - ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = "none";
+                        }}
+                      />
+                    </div>
+                  ))}
                 </div>
-              </div>
+              ) : (
+                <div className="polaroid w-72 h-80 mx-auto bg-gradient-to-br from-pink-light to-blue-light flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl mb-2">📷</div>
+                    <p className="text-text-brown-light text-sm">照片待添加</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Content text */}

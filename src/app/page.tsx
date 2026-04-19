@@ -11,15 +11,19 @@ import { memories } from "@/data/memories";
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
 
   const handleSearch = useCallback((query: string) => {
     setSearchQuery(query);
   }, []);
 
   const filteredMemories = useMemo(() => {
-    const sorted = [...memories].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+    // Sort by date
+    const sorted = [...memories].sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
+    });
 
     let filtered = sorted;
 
@@ -41,7 +45,7 @@ export default function Home() {
     }
 
     return filtered;
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, sortOrder]);
 
   // Count milestones
   const milestoneCount = memories.filter((m) => m.milestone).length;
@@ -73,12 +77,38 @@ export default function Home() {
       {/* Search Bar */}
       <SearchBar onSearch={handleSearch} />
 
-      {/* Category Filter */}
-      <section className="px-4">
-        <CategoryFilter
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-        />
+      {/* Category Filter & Sort */}
+      <section className="px-4 mb-4">
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <CategoryFilter
+            activeCategory={activeCategory}
+            onCategoryChange={setActiveCategory}
+          />
+          {/* Sort Toggle */}
+          <div className="flex items-center gap-2 bg-bg-white rounded-full px-4 py-2 shadow-sm border border-border-beige">
+            <span className="text-text-brown-light text-sm">排序：</span>
+            <button
+              onClick={() => setSortOrder("desc")}
+              className={`px-3 py-1 rounded-full text-sm transition-all ${
+                sortOrder === "desc"
+                  ? "bg-pink-main text-white"
+                  : "text-text-brown hover:bg-pink-light"
+              }`}
+            >
+              最新优先
+            </button>
+            <button
+              onClick={() => setSortOrder("asc")}
+              className={`px-3 py-1 rounded-full text-sm transition-all ${
+                sortOrder === "asc"
+                  ? "bg-pink-main text-white"
+                  : "text-text-brown hover:bg-pink-light"
+              }`}
+            >
+              最早优先
+            </button>
+          </div>
+        </div>
       </section>
 
       {/* Timeline */}

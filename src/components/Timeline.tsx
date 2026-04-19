@@ -11,13 +11,13 @@ export default function Timeline({ memories }: TimelineProps) {
       {/* Timeline center line */}
       <div className="absolute left-1/2 top-0 bottom-0 w-[3px] bg-gradient-to-b from-pink-main via-blue-sky to-gold-warm transform -translate-x-1/2 hidden md:block" />
 
-      <div className="space-y-12">
+      <div className="space-y-8 md:space-y-12">
         {memories.map((memory, index) => (
           <div
             key={memory.id}
             className={`animate-fadeInUp flex flex-col ${
               index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-            } items-center gap-8`}
+            } items-center gap-4 md:gap-8`}
           >
             {/* Timeline dot */}
             <div className="relative z-10 flex-shrink-0">
@@ -29,22 +29,22 @@ export default function Timeline({ memories }: TimelineProps) {
             </div>
 
             {/* Content card */}
-            <div className={`flex-1 max-w-xl ${index % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
+            <div className={`w-full md:w-[18rem] flex-shrink-0 ${index % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
               <Link
                 href={`/memory/${memory.id}`}
-                className={`card-torn p-6 block transition-all hover:shadow-lg ${
+                className={`card-torn p-4 block transition-all hover:shadow-lg ${
                   memory.milestone ? "border-2 border-pink-main/30" : ""
                 }`}
               >
                 {/* Milestone ribbon */}
                 {memory.milestone && memory.milestoneLabel && (
-                  <div className="milestone-ribbon inline-block mb-4 text-sm">
+                  <div className="milestone-ribbon inline-block mb-3 text-sm">
                     🎀 {memory.milestoneLabel}
                   </div>
                 )}
 
                 {/* Date */}
-                <p className="text-text-brown-light text-sm mb-2">
+                <p className="text-text-brown-light text-xs mb-2">
                   {new Date(memory.date).toLocaleDateString("zh-CN", {
                     year: "numeric",
                     month: "long",
@@ -53,27 +53,27 @@ export default function Timeline({ memories }: TimelineProps) {
                 </p>
 
                 {/* Title */}
-                <h3 className="text-xl font-semibold text-text-brown mb-3 font-handwritten">
+                <h3 className="text-lg font-semibold text-text-brown mb-2 font-handwritten line-clamp-1">
                   {memory.title}
                 </h3>
 
                 {/* Excerpt */}
-                <p className="text-text-brown-light mb-4">{memory.excerpt}</p>
+                <p className="text-text-brown-light text-sm line-clamp-2 mb-3">{memory.excerpt}</p>
 
                 {/* Tags */}
-                <div className={`flex flex-wrap gap-2 ${index % 2 === 0 ? "md:justify-end" : "md:justify-start"}`}>
-                  {memory.tags.map((tag) => (
-                    <span key={tag} className="tag-sticker">
+                <div className={`flex flex-wrap gap-1 ${index % 2 === 0 ? "md:justify-end" : "md:justify-start"}`}>
+                  {memory.tags.slice(0, 2).map((tag) => (
+                    <span key={tag} className="tag-sticker text-xs">
                       #{tag}
                     </span>
                   ))}
                 </div>
 
                 {/* Placeholder for photo */}
-                <div className="mt-4 inline-block">
-                  <div className="polaroid w-48 h-56 bg-gradient-to-br from-pink-light to-blue-light flex items-center justify-center text-text-brown-light">
+                <div className="mt-3">
+                  <div className="polaroid w-32 h-40 bg-gradient-to-br from-pink-light to-blue-light flex items-center justify-center text-text-brown-light mx-auto">
                     <div className="text-center">
-                      <div className="text-4xl mb-2">📷</div>
+                      <div className="text-3xl mb-1">📷</div>
                       <p className="text-xs">照片待添加</p>
                     </div>
                   </div>

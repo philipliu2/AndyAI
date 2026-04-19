@@ -72,7 +72,7 @@ export default function Timeline({ memories }: TimelineProps) {
                 {/* Photo */}
                 <div className="mt-3">
                   {memory.photos && memory.photos.length > 0 ? (
-                    <div className={`polaroid w-32 h-40 mx-auto overflow-hidden ${index % 2 === 0 ? "md:ml-auto" : "md:mr-auto"}`}>
+                    <div className={`rounded-xl overflow-hidden mx-auto w-48 aspect-video ${index % 2 === 0 ? "md:ml-auto" : "md:mr-auto"}`}>
                       <img
                         src={memory.photos[0]}
                         alt={memory.title}
@@ -83,7 +83,7 @@ export default function Timeline({ memories }: TimelineProps) {
                       />
                     </div>
                   ) : (
-                    <div className="polaroid w-32 h-40 bg-gradient-to-br from-pink-light to-blue-light flex items-center justify-center text-text-brown-light mx-auto">
+                    <div className="w-48 aspect-video bg-gradient-to-br from-pink-light to-blue-light rounded-xl flex items-center justify-center text-text-brown-light mx-auto">
                       <div className="text-center">
                         <div className="text-3xl mb-1">📷</div>
                         <p className="text-xs">照片待添加</p>
